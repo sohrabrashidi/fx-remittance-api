@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Remittance.Core/Remittance.Core.csproj" />
+    <Project Path="src/Remittance.Infrastructure/Remittance.Infrastructure.csproj" />
+    <Project Path="src/Remittance.Infrastructure.Postgres/Remittance.Infrastructure.Postgres.csproj" />
+    <Project Path="src/Remittance.Api/Remittance.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Remittance.Core.Tests/Remittance.Core.Tests.csproj" />
+    <Project Path="tests/Remittance.Api.Tests/Remittance.Api.Tests.csproj" />
+  </Folder>
+</Solution>

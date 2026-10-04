@@ -1,0 +1,45 @@
+@host = http://localhost:5080
+@apiKey = change-me
+
+### Supported corridors and fee tiers
+GET {{host}}/corridors
+
+### Latest rates
+GET {{host}}/rates/
+
+### Quote: customer sends 250 KWD
+POST {{host}}/quotes
+Content-Type: application/json
+
+{ "source": "KWD", "target": "INR", "amount": 250, "mode": "Send" }
+
+### Quote: recipient must get exactly 100,000 INR
+POST {{host}}/quotes
+Content-Type: application/json
+
+{ "source": "KWD", "target": "INR", "amount": 100000, "mode": "Receive" }
+
+### Create a transfer (paste a quote id)
+POST {{host}}/transfers
+Content-Type: application/json
+Idempotency-Key: 6c1d2f0e-demo-0001
+
+{
+  "quoteId": "<quote-id>",
+  "sender":    { "fullName": "Ahmed Ali",  "country": "KW" },
+  "recipient": { "fullName": "Priya Nair", "country": "IN", "accountNumber": "50100012345678" }
+}
+
+### Move a transfer forward (back office)
+POST {{host}}/transfers/<transfer-id>/status
+Content-Type: application/json
+X-Api-Key: {{apiKey}}
+
+{ "status": "Funded", "note": "Cash received at branch" }
+
+### Treasury pushes a new rate
+PUT {{host}}/rates/KWD/INR
+Content-Type: application/json
+X-Api-Key: {{apiKey}}
+
+{ "rate": 286.10 }

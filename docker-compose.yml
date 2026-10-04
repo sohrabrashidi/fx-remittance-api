@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: remit
+      POSTGRES_PASSWORD: remit
+      POSTGRES_DB: remittance
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U remit -d remittance"]
+      interval: 5s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      ConnectionStrings__Postgres: "Host=db;Database=remittance;Username=remit;Password=remit"
+      BackOffice__ApiKey: "local-dev-key"
+    ports:
+      - "8080:8080"
